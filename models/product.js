@@ -25,7 +25,6 @@ const productSchema = mongoose.Schema(
     },
     description: {
       type: String,
-      required: true,
       maxlength: 2000,
       text: true,
     },
@@ -34,6 +33,17 @@ const productSchema = mongoose.Schema(
       required: true,
       trim: true,
       maxlength: 32,
+    },
+    discountedPrice: {
+      price: {
+        type: Number,
+        maxlength: 32,
+      },
+      discount: {
+        type: Number,
+        maxlength: 2,
+        default: 0,
+      },
     },
     category: {
       type: ObjectId,
@@ -46,22 +56,14 @@ const productSchema = mongoose.Schema(
       },
     ],
     images: {
-      type: [
-        {
-          color: {
-            type: ObjectId,
-            ref: "color",
-          },
-          url: { type: Array },
-        },
-      ],
+      type: Array,
     },
     quantity: {
       type: [
         {
-          color: {
+          color_Id: {
             type: ObjectId,
-            ref: "color",
+            ref: "Color",
           },
           size: {
             type: Number,
@@ -79,12 +81,13 @@ const productSchema = mongoose.Schema(
       uppercase: true,
       required: true,
     },
-    // ratings: [
-    //   {
-    //     star: Number,
-    //     postedBy: { type: ObjectId, ref: "User" },
-    //   },
-    // ],
+    ratings: [
+      {
+        star: Number,
+        comments: { type: String, maxlength: 280 },
+        postedBy: { type: ObjectId, ref: "User" },
+      },
+    ],
   },
   { timestamps: true }
 );
